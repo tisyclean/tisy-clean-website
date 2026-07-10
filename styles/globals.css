@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lilita+One&display=swap");
+
+:root {
+  --primary-color: #cd291e;
+  --secondary-color: #fdb912;
+  --light-color: #fff9ee;
+  --dark-color: #231f20;
+  --accent-color: #316131;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-light-white text-custom-grey font-sans antialiased;
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-6 py-3 bg-accent-red text-white font-semibold rounded-lg
+      transition-all duration-300 ease-smooth hover:scale-[1.02] hover:shadow-lg;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-6 py-3 bg-accent-yellow text-custom-grey font-semibold rounded-lg
+      transition-all duration-300 ease-smooth hover:scale-[1.02] hover:shadow-lg;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center px-6 py-3 border-2 border-white text-white font-semibold rounded-lg
+      transition-all duration-300 ease-smooth hover:scale-[1.02] hover:bg-white hover:text-custom-grey;
+  }
+
+  .nav-link {
+    @apply relative text-custom-grey font-medium transition-colors duration-200 hover:text-accent-red;
+  }
+
+  .nav-link::after {
+    content: "";
+    @apply absolute bottom-0 left-0 w-0 h-0.5 bg-accent-red transition-all duration-200;
+  }
+
+  .nav-link:hover::after {
+    @apply w-full;
+  }
+
+  .order-btn {
+    @apply relative inline-flex items-center justify-center px-5 py-2.5 bg-accent-red text-white font-semibold rounded-lg
+      transition-all duration-300 ease-smooth;
+    box-shadow: 4px 4px 0 #231f20;
+  }
+
+  .order-btn:hover {
+    @apply scale-[1.02];
+    box-shadow: 6px 6px 0 #231f20;
+    transform: translate(-2px, -2px) scale(1.02);
+  }
+
+  .story-btn {
+    @apply relative inline-flex items-center justify-center px-8 py-3 bg-accent-red text-white font-semibold rounded-lg
+      transition-all duration-300 ease-smooth overflow-hidden;
+    box-shadow: 4px 4px 0 #FDB912;
+  }
+
+  .story-btn::before {
+    content: "";
+    @apply absolute inset-0 bg-accent-yellow transition-transform duration-300 ease-smooth;
+    transform: translateX(-100%);
+  }
+
+  .story-btn:hover::before {
+    transform: translateX(0);
+  }
+
+  .story-btn span {
+    @apply relative z-10;
+  }
+
+  .story-btn:hover {
+    @apply scale-[1.02] shadow-xl;
+  }
+}
