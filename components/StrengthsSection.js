@@ -1,4 +1,4 @@
-import { Zap, Award, Handshake } from "lucide-react";
+import { Zap, Award, HeartHandshake } from "lucide-react";
 
 const strengths = [
   {
@@ -12,7 +12,7 @@ const strengths = [
     description: "Matériel pro, produits adaptés, résultat visible dès la première visite.",
   },
   {
-    icon: Handshake,
+    icon: HeartHandshake,
     title: "Professionnalisme et écoute",
     description: "Devis gratuit, conseils personnalisés, service à domicile sans stress.",
   },
