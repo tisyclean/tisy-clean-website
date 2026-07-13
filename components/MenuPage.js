@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import ScrollReveal from "./ScrollReveal";
 
 export const menuItems = [
   {
@@ -50,31 +51,31 @@ export default function MenuPage() {
   return (
     <section className="py-20 bg-light-white">
       <div className="container mx-auto px-4">
-        <div className="mb-12 text-center">
-          <span className="mb-4 inline-block text-sm font-semibold uppercase tracking-wider text-accent-red">
-            Tarifs &amp; prestations
-          </span>
-          <h1 className="text-3xl font-bold text-custom-grey md:text-5xl">
-            Des prix <span className="text-accent-red">clairs</span>, sans surprise
-          </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-gray-600">
-            Toutes nos prestations sont réalisées à domicile dans le sud de La Réunion.
-            Devis personnalisé gratuit selon l&apos;état de votre véhicule ou canapé.
-          </p>
-        </div>
+        <ScrollReveal direction="fade">
+          <div className="mb-12 text-center">
+            <span className="mb-4 inline-block text-sm font-semibold uppercase tracking-wider text-accent-red">
+              Tarifs &amp; prestations
+            </span>
+            <h1 className="text-3xl font-bold text-custom-grey md:text-5xl">
+              Des prix <span className="text-accent-red">clairs</span>, sans surprise
+            </h1>
+            <p className="mx-auto mt-4 max-w-2xl text-lg text-gray-600">
+              Toutes nos prestations sont réalisées à domicile dans le sud de La Réunion.
+              Devis personnalisé gratuit selon l&apos;état de votre véhicule ou canapé.
+            </p>
+          </div>
+        </ScrollReveal>
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
           {menuItems.map((item, index) => (
-            <article
-              key={index}
-              className="group overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-300 ease-smooth hover:scale-105 hover:shadow-2xl"
-            >
+            <ScrollReveal key={index} delay={(index % 2) * 160}>
+              <article className="motion-card group h-full overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-2xl">
               <div className="relative h-56 overflow-hidden">
                 <Image
                   src={item.image}
                   alt={item.name}
                   fill
-                  className="object-cover transition-transform duration-500 ease-smooth group-hover:scale-110"
+                  className="object-cover transition-transform duration-[900ms] ease-out-expo group-hover:scale-105"
                   sizes="(max-width: 768px) 100vw, 50vw"
                 />
                 <span className="absolute top-4 right-4 rounded-full bg-accent-yellow px-3 py-1 text-xs font-bold uppercase text-custom-grey">
@@ -96,11 +97,13 @@ export default function MenuPage() {
                   Réserver
                 </Link>
               </div>
-            </article>
+              </article>
+            </ScrollReveal>
           ))}
         </div>
 
-        <div className="mt-12 rounded-2xl bg-white p-8 shadow-lg">
+        <ScrollReveal delay={180}>
+          <div className="mt-12 rounded-2xl bg-white p-8 shadow-lg">
           <h3 className="mb-6 text-center text-xl font-bold text-custom-grey">
             Tarifs détaillés sièges
           </h3>
@@ -110,17 +113,17 @@ export default function MenuPage() {
               { label: "Sièges 5 places", price: "150€" },
               { label: "Sièges 7 places", price: "245€" },
               { label: "Devis personnalisé", price: "Gratuit" },
-            ].map((item) => (
-              <div
-                key={item.label}
-                className="rounded-xl bg-light-white p-4 text-center transition-all duration-300 hover:shadow-md"
-              >
-                <p className="font-semibold text-custom-grey">{item.label}</p>
-                <p className="mt-1 text-2xl font-bold text-accent-red">{item.price}</p>
-              </div>
+            ].map((item, index) => (
+              <ScrollReveal key={item.label} delay={index * 120} as="div">
+                <div className="motion-card rounded-xl bg-light-white p-4 text-center">
+                  <p className="font-semibold text-custom-grey">{item.label}</p>
+                  <p className="mt-1 text-2xl font-bold text-accent-red">{item.price}</p>
+                </div>
+              </ScrollReveal>
             ))}
           </div>
-        </div>
+          </div>
+        </ScrollReveal>
       </div>
     </section>
   );

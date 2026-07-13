@@ -1,3 +1,5 @@
+import ScrollReveal from "./ScrollReveal";
+
 const reviews = [
   {
     name: "Marie — Tampon",
@@ -45,30 +47,31 @@ export default function ReviewSection() {
   return (
     <section id="temoignages" className="py-20 bg-white">
       <div className="container mx-auto px-4">
-        <div className="mb-12 text-center">
-          <span className="mb-4 inline-block text-sm font-semibold uppercase tracking-wider text-accent-red">
-            Témoignages
-          </span>
-          <h2 className="text-3xl font-bold text-custom-grey md:text-4xl">
-            Ils nous font confiance,{" "}
-            <span className="text-accent-red">pourquoi pas vous ?</span>
-          </h2>
-        </div>
+        <ScrollReveal direction="fade">
+          <div className="mb-12 text-center">
+            <span className="mb-4 inline-block text-sm font-semibold uppercase tracking-wider text-accent-red">
+              Témoignages
+            </span>
+            <h2 className="text-3xl font-bold text-custom-grey md:text-4xl">
+              Ils nous font confiance,{" "}
+              <span className="text-accent-red">pourquoi pas vous ?</span>
+            </h2>
+          </div>
+        </ScrollReveal>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {reviews.map((review, index) => (
-            <article
-              key={index}
-              className="rounded-xl bg-light-white p-6 shadow-md transition-all duration-300 ease-smooth hover:scale-105 hover:shadow-xl"
-            >
-              <StarRating rating={review.rating} />
-              <p className="mb-6 border-l-4 border-accent-red pl-4 text-gray-700 leading-relaxed">
-                &ldquo;{review.text}&rdquo;
-              </p>
-              <div className="border-t border-gray-200 pt-4">
-                <p className="font-semibold text-custom-grey">{review.name}</p>
-              </div>
-            </article>
+            <ScrollReveal key={index} delay={(index % 3) * 140}>
+              <article className="motion-card h-full rounded-xl bg-light-white p-6 shadow-md hover:shadow-xl">
+                <StarRating rating={review.rating} />
+                <p className="mb-6 border-l-4 border-accent-red pl-4 text-gray-700 leading-relaxed">
+                  &ldquo;{review.text}&rdquo;
+                </p>
+                <div className="border-t border-gray-200 pt-4">
+                  <p className="font-semibold text-custom-grey">{review.name}</p>
+                </div>
+              </article>
+            </ScrollReveal>
           ))}
         </div>
       </div>

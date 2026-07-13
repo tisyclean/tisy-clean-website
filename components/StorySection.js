@@ -1,12 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
+import ScrollReveal from "./ScrollReveal";
 
 export default function StorySection() {
   return (
     <section id="apropos" className="py-20 bg-light-white">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
-          <div className="order-2 lg:order-1">
+          <ScrollReveal className="order-2 lg:order-1" direction="right">
             <span className="mb-4 inline-block border-l-4 border-accent-red pl-4 text-sm font-semibold uppercase tracking-wider text-accent-red">
               Notre histoire
             </span>
@@ -31,16 +32,16 @@ export default function StorySection() {
             <Link href="#contact" className="story-btn">
               <span>Prendre rendez-vous</span>
             </Link>
-          </div>
+          </ScrollReveal>
 
-          <div className="order-1 lg:order-2">
-            <div className="group relative overflow-hidden rounded-2xl border-4 border-accent-yellow shadow-2xl">
+          <ScrollReveal className="order-1 lg:order-2" direction="left" delay={200}>
+            <div className="motion-card group relative overflow-hidden rounded-2xl border-4 border-accent-yellow shadow-2xl">
               <div className="relative aspect-[4/5] overflow-hidden">
                 <Image
                   src="/images/service-1.jpg"
                   alt="Nettoyage automobile professionnel Tisy Clean"
                   fill
-                  className="object-cover transition-transform duration-500 ease-smooth group-hover:scale-110"
+                  className="object-cover transition-transform duration-[900ms] ease-out-expo group-hover:scale-105"
                   sizes="(max-width: 768px) 100vw, 50vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
@@ -52,7 +53,7 @@ export default function StorySection() {
                 <p className="text-xl font-bold">150+ clients satisfaits</p>
               </div>
             </div>
-          </div>
+          </ScrollReveal>
         </div>
       </div>
     </section>

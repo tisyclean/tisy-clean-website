@@ -30,9 +30,9 @@ export default function Navigation() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-smooth ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ease-out-expo ${
         mounted && (isScrolled || !isHome)
-          ? "bg-white/95 shadow-md backdrop-blur-sm"
+          ? "bg-white/90 shadow-sm backdrop-blur-md"
           : "bg-transparent"
       }`}
     >
@@ -78,7 +78,7 @@ export default function Navigation() {
       </div>
 
       <div
-        className={`md:hidden overflow-hidden transition-all duration-300 ease-smooth ${
+        className={`md:hidden overflow-hidden transition-all duration-500 ease-out-expo ${
           mobileMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
