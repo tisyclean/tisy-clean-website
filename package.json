@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
+    "dev": "node server.js",
+    "build": "node server.js",
+    "start": "node server.js"
   },
   "dependencies": {
     "autoprefixer": "^10.0.0",

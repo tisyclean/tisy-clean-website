@@ -1,73 +1,53 @@
-# Tisy Clean — Site vitrine Next.js
+# Tisy Clean — Site vitrine
 
-Site vitrine moderne pour **Tisy Clean**, nettoyage automobile et canapé à domicile (La Réunion).
+Site vitrine pour **Tisy Clean**, nettoyage automobile et canapé à domicile (La Réunion).
 
 ## Stack technique
 
-- Next.js 13.4.12
-- React 18.2.0
-- Tailwind CSS 3.2
-- Lucide React (icônes)
+- HTML / CSS / JavaScript (site statique)
+- Serveur local Node.js (`server.js`)
 
 ## Prérequis
 
-- Node.js >= 14.x
-- npm
-
-## Installation
-
-```bash
-npm install
-```
+- Node.js >= 14.x (ou le binaire local `.node-local/bin/node`)
 
 ## Développement
 
 ```bash
+export PATH="$(pwd)/.node-local/bin:$PATH"   # si Node n'est pas installé globalement
 npm run dev
 ```
 
 Ouvrez [http://localhost:3000](http://localhost:3000).
 
-## Build production
+Sections principales :
 
-```bash
-npm run build
-npm start
-```
+| Section | URL |
+|---------|-----|
+| Accueil | [http://localhost:3000](http://localhost:3000) |
+| Tarifs | [http://localhost:3000/#tarifs](http://localhost:3000/#tarifs) |
+| Contact | [http://localhost:3000/#contact](http://localhost:3000/#contact) |
 
 ## Structure du projet
 
 ```
 /
-├── components/          # Composants UI réutilisables
-│   ├── HeroSlider.js    # Slider plein écran avec CTA
-│   ├── StorySection.js  # Section histoire / à propos
-│   ├── ReviewSection.js # Témoignages clients
-│   ├── MenuPage.js      # Grille tarifs & prestations
-│   ├── Navigation.js    # Navigation sticky responsive
-│   ├── Footer.js        # Pied de page
-│   ├── Logo.js          # Logo texte en couches
-│   ├── ContactSection.js
-│   └── StrengthsSection.js
-├── pages/               # Pages Next.js
-│   ├── index.js         # Accueil
-│   └── services.js      # Tarifs & prestations
-├── public/images/       # Assets statiques
-├── styles/globals.css   # Styles globaux + Tailwind
-└── utils/ThemeContext.js
+├── index.html      # Page principale (one-page)
+├── style.css       # Styles
+├── script.js       # Interactions (menu, FAQ, formulaire, slider)
+├── server.js       # Serveur local port 3000
+├── images/         # Photos et logos
+├── components/     # Ancienne version Next.js (archivée)
+└── pages/          # Ancienne version Next.js (archivée)
 ```
-
-## Pages
-
-| Route | Description |
-|-------|-------------|
-| `/` | Accueil — hero, histoire, points forts, témoignages, contact |
-| `/services` | Tarifs & prestations détaillés |
 
 ## Déploiement
 
-- [Vercel](https://vercel.com) — importez le repo (recommandé pour Next.js)
-- [Netlify](https://netlify.com) — build command: `npm run build`, publish: `.next`
+Déployez le dossier racine (`index.html`, `style.css`, `script.js`, `images/`) sur n'importe quel hébergeur statique :
+
+- [Netlify](https://netlify.com) — publish: racine du projet
+- [GitHub Pages](https://pages.github.com)
+- Hébergement classique (Apache / Nginx)
 
 ## Contact
 
