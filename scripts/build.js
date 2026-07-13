@@ -4,7 +4,7 @@ const path = require("path");
 const ROOT = path.join(__dirname, "..");
 const DIST = path.join(ROOT, "dist");
 
-const FILES = ["index.html", "style.css", "script.js"];
+const FILES = ["index.html", "style.css", "script.js", "robots.txt", "sitemap.xml"];
 const DIRS = ["images"];
 
 function copyFile(src, dest) {
