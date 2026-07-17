@@ -300,29 +300,199 @@
       </div>
     </section>
 
-    <section class="before-after" id="realisations">
-      <div class="ba-slider" id="ba-slider">
-        <img class="ba-img ba-img--after" src="images/after.jpg" alt="Après nettoyage" draggable="false" />
-        <div class="ba-clip" id="ba-clip">
-          <img class="ba-img ba-img--before" src="images/before.jpg" alt="Avant nettoyage" draggable="false" />
-        </div>
-        <div class="ba-divider" id="ba-divider" role="slider" aria-label="Comparer avant et après" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" tabindex="0">
-          <div class="ba-handle"><i class="fa-solid fa-arrows-left-right"></i></div>
-        </div>
-        <span class="ba-label before">Avant</span>
-        <span class="ba-label after">Après</span>
-      </div>
-      <div class="ba-copy">
+    <section class="realisations" id="realisations">
+      <div class="section-head centered dark realisations-head">
         <p class="section-kicker">Nos réalisations</p>
         <h2>Un résultat visible, dès la première intervention</h2>
-        <div class="ba-modules">
-          <article><i class="fa-solid fa-check"></i><div><strong>Intérieur impeccable</strong><p>Sièges, tapis et plastiques traités en profondeur.</p></div></article>
-          <article><i class="fa-solid fa-check"></i><div><strong>Extérieur éclatant</strong><p>Carrosserie brillante, jantes resplendissantes.</p></div></article>
-          <article><i class="fa-solid fa-check"></i><div><strong>Canapé rafraîchi</strong><p>Taches et odeurs éliminées, tissu comme neuf.</p></div></article>
+      </div>
+
+      <div class="realisations-highlight before-after">
+        <div class="ba-slider" id="ba-slider">
+          <img class="ba-img ba-img--after" src="images/after.jpg" alt="Après nettoyage automobile" draggable="false" loading="lazy" />
+          <div class="ba-clip" id="ba-clip">
+            <img class="ba-img ba-img--before" src="images/before.jpg" alt="Avant nettoyage automobile" draggable="false" loading="lazy" />
+          </div>
+          <div class="ba-divider" id="ba-divider" role="slider" aria-label="Comparer avant et après" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" tabindex="0">
+            <div class="ba-handle"><i class="fa-solid fa-arrows-left-right"></i></div>
+          </div>
+          <span class="ba-label before">Avant</span>
+          <span class="ba-label after">Après</span>
         </div>
-        <a href="#contact" class="btn btn-primary btn-pill magnetic">Demander un devis</a>
+        <div class="ba-copy">
+          <p class="section-kicker">Avant / Après</p>
+          <h2>Glissez pour comparer le résultat</h2>
+          <div class="ba-modules">
+            <article><i class="fa-solid fa-check"></i><div><strong>Intérieur impeccable</strong><p>Sièges, tapis et plastiques traités en profondeur.</p></div></article>
+            <article><i class="fa-solid fa-check"></i><div><strong>Extérieur éclatant</strong><p>Carrosserie brillante, jantes resplendissantes.</p></div></article>
+            <article><i class="fa-solid fa-check"></i><div><strong>Textiles rafraîchis</strong><p>Taches et odeurs éliminées, tissu comme neuf.</p></div></article>
+          </div>
+        </div>
+      </div>
+
+      <div class="realisations-body">
+        <div class="realisations-filters" role="tablist" aria-label="Filtrer les réalisations">
+          <button type="button" class="realisations-filter is-active" data-filter="all" role="tab" aria-selected="true">Toutes</button>
+          <button type="button" class="realisations-filter" data-filter="complet" role="tab" aria-selected="false">Nettoyage complet</button>
+          <button type="button" class="realisations-filter" data-filter="interieur" role="tab" aria-selected="false">Intérieur</button>
+          <button type="button" class="realisations-filter" data-filter="exterieur" role="tab" aria-selected="false">Extérieur</button>
+          <button type="button" class="realisations-filter" data-filter="phares" role="tab" aria-selected="false">Rénovation de phares</button>
+          <button type="button" class="realisations-filter" data-filter="textiles" role="tab" aria-selected="false">Canapés et textiles</button>
+        </div>
+
+        <p class="realisations-empty" id="realisations-empty" hidden>Aucune réalisation dans cette catégorie pour le moment.</p>
+
+        <div class="realisations-grid" id="realisations-grid">
+          <!-- Réalisation 1 — modifier titre, catégorie, images et description ici -->
+          <article class="realisation-card"
+            data-category="complet"
+            data-title="Lavage complet à domicile"
+            data-service="Nettoyage complet"
+            data-location="Sud de La Réunion"
+            data-description="Prestation complète intérieur et extérieur réalisée à domicile avec un rendu uniforme sur l'ensemble du véhicule."
+            data-images="images/gallery-1.jpg|images/service-3.jpg">
+            <button type="button" class="realisation-card__open" aria-label="Voir la réalisation : Lavage complet à domicile">
+              <div class="realisation-card__media">
+                <img src="images/gallery-1.jpg" alt="Véhicule couvert de mousse lors d'un lavage complet" loading="lazy" />
+              </div>
+              <div class="realisation-card__body">
+                <span class="realisation-card__badge">Nettoyage complet</span>
+                <h3 class="realisation-card__title">Lavage complet à domicile</h3>
+                <p class="realisation-card__location">Sud de La Réunion</p>
+                <span class="realisation-card__cta">Voir la réalisation <i class="fa-solid fa-arrow-right"></i></span>
+              </div>
+            </button>
+          </article>
+
+          <!-- Réalisation 2 -->
+          <article class="realisation-card"
+            data-category="interieur"
+            data-title="Intérieur premium"
+            data-service="Intérieur"
+            data-location="Sud de La Réunion"
+            data-description="Nettoyage minutieux de l'habitacle : plastiques, surfaces et finitions remis en état avec soin."
+            data-images="images/gallery-2.jpg|images/service-2.jpg">
+            <button type="button" class="realisation-card__open" aria-label="Voir la réalisation : Intérieur premium">
+              <div class="realisation-card__media">
+                <img src="images/gallery-2.jpg" alt="Intérieur automobile premium après nettoyage" loading="lazy" />
+              </div>
+              <div class="realisation-card__body">
+                <span class="realisation-card__badge">Intérieur</span>
+                <h3 class="realisation-card__title">Intérieur premium</h3>
+                <p class="realisation-card__location">Sud de La Réunion</p>
+                <span class="realisation-card__cta">Voir la réalisation <i class="fa-solid fa-arrow-right"></i></span>
+              </div>
+            </button>
+          </article>
+
+          <!-- Réalisation 3 -->
+          <article class="realisation-card"
+            data-category="exterieur"
+            data-title="Jantes et carrosserie"
+            data-service="Extérieur"
+            data-location="Sud de La Réunion"
+            data-description="Lavage des jantes et de la carrosserie avec brossage des zones délicates pour un rendu brillant."
+            data-images="images/gallery-3.jpg|images/service-1.jpg">
+            <button type="button" class="realisation-card__open" aria-label="Voir la réalisation : Jantes et carrosserie">
+              <div class="realisation-card__media">
+                <img src="images/gallery-3.jpg" alt="Nettoyage des jantes en cours sur un véhicule" loading="lazy" />
+              </div>
+              <div class="realisation-card__body">
+                <span class="realisation-card__badge">Extérieur</span>
+                <h3 class="realisation-card__title">Jantes et carrosserie</h3>
+                <p class="realisation-card__location">Sud de La Réunion</p>
+                <span class="realisation-card__cta">Voir la réalisation <i class="fa-solid fa-arrow-right"></i></span>
+              </div>
+            </button>
+          </article>
+
+          <!-- Réalisation 4 -->
+          <article class="realisation-card realisation-card--extra"
+            data-category="interieur"
+            data-title="Sièges en profondeur"
+            data-service="Intérieur"
+            data-location="Sud de La Réunion"
+            data-description="Shampoing et extraction sur les sièges en tissu pour éliminer les salissures incrustées."
+            data-images="images/gallery-4.jpg|images/material-4.jpg|images/service-4.jpg">
+            <button type="button" class="realisation-card__open" aria-label="Voir la réalisation : Sièges en profondeur">
+              <div class="realisation-card__media">
+                <img src="images/gallery-4.jpg" alt="Extraction professionnelle sur siège en tissu" loading="lazy" />
+              </div>
+              <div class="realisation-card__body">
+                <span class="realisation-card__badge">Intérieur</span>
+                <h3 class="realisation-card__title">Sièges en profondeur</h3>
+                <p class="realisation-card__location">Sud de La Réunion</p>
+                <span class="realisation-card__cta">Voir la réalisation <i class="fa-solid fa-arrow-right"></i></span>
+              </div>
+            </button>
+          </article>
+
+          <!-- Réalisation 5 -->
+          <article class="realisation-card realisation-card--extra"
+            data-category="exterieur"
+            data-title="Mousse active carrosserie"
+            data-service="Extérieur"
+            data-location="Sud de La Réunion"
+            data-description="Application de mousse active sur la carrosserie pour un lavage en douceur et un éclat durable."
+            data-images="images/material-2.jpg|images/method-2.jpg">
+            <button type="button" class="realisation-card__open" aria-label="Voir la réalisation : Mousse active carrosserie">
+              <div class="realisation-card__media">
+                <img src="images/material-2.jpg" alt="Carrosserie recouverte de mousse active lors du lavage" loading="lazy" />
+              </div>
+              <div class="realisation-card__body">
+                <span class="realisation-card__badge">Extérieur</span>
+                <h3 class="realisation-card__title">Mousse active carrosserie</h3>
+                <p class="realisation-card__location">Sud de La Réunion</p>
+                <span class="realisation-card__cta">Voir la réalisation <i class="fa-solid fa-arrow-right"></i></span>
+              </div>
+            </button>
+          </article>
+
+          <!-- Réalisation 6 -->
+          <article class="realisation-card realisation-card--extra"
+            data-category="textiles"
+            data-title="Textiles et tissus"
+            data-service="Canapés et textiles"
+            data-location="Sud de La Réunion"
+            data-description="Traitement en profondeur des textiles : shampoing et extraction pour un tissu propre et rafraîchi."
+            data-images="images/material-4.jpg|images/gallery-4.jpg">
+            <button type="button" class="realisation-card__open" aria-label="Voir la réalisation : Textiles et tissus">
+              <div class="realisation-card__media">
+                <img src="images/material-4.jpg" alt="Nettoyage en profondeur d'un tissu avec injecteur-extracteur" loading="lazy" />
+              </div>
+              <div class="realisation-card__body">
+                <span class="realisation-card__badge">Canapés et textiles</span>
+                <h3 class="realisation-card__title">Textiles et tissus</h3>
+                <p class="realisation-card__location">Sud de La Réunion</p>
+                <span class="realisation-card__cta">Voir la réalisation <i class="fa-solid fa-arrow-right"></i></span>
+              </div>
+            </button>
+          </article>
+        </div>
+
+        <div class="realisations-actions">
+          <button type="button" class="btn btn-glass btn-pill magnetic" id="realisations-show-all" aria-expanded="false">
+            Voir toutes nos réalisations
+          </button>
+        </div>
       </div>
     </section>
+
+    <div class="realisations-modal" id="realisations-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="realisations-modal-title">
+      <div class="realisations-modal__backdrop" data-close-modal tabindex="-1" aria-hidden="true"></div>
+      <div class="realisations-modal__panel" role="document">
+        <button type="button" class="realisations-modal__close" id="realisations-modal-close" aria-label="Fermer la réalisation">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="realisations-modal__content">
+          <span class="realisation-card__badge" id="realisations-modal-badge"></span>
+          <h3 class="realisations-modal__title" id="realisations-modal-title"></h3>
+          <p class="realisations-modal__location" id="realisations-modal-location"></p>
+          <p class="realisations-modal__desc" id="realisations-modal-desc"></p>
+          <div class="realisations-modal__gallery" id="realisations-modal-gallery"></div>
+          <a href="#contact" class="btn btn-primary btn-pill magnetic realisations-modal__cta" id="realisations-modal-cta">Demander un devis</a>
+        </div>
+      </div>
+    </div>
 
     <section class="packs" id="tarifs">
       <div class="section-head centered dark">
@@ -391,20 +561,6 @@
           </div>
           <p>Vous êtes dans une autre commune ? Contactez-nous, nous étudions chaque demande.</p>
         </div>
-      </div>
-    </section>
-
-    <section class="gallery">
-      <div class="section-head centered">
-        <p class="section-kicker">Galerie</p>
-        <h2>Nos <span>réalisations</span> en images</h2>
-      </div>
-      <div class="gallery-grid">
-        <article class="lead"><img src="images/gallery-1.jpg" alt="Réalisation 1" /><div><h3>Detailing complet</h3></div></article>
-        <article><img src="images/gallery-2.jpg" alt="Réalisation 2" /><div><h3>Intérieur premium</h3></div></article>
-        <article><img src="images/gallery-3.jpg" alt="Réalisation 3" /><div><h3>Sièges rénovés</h3></div></article>
-        <article><img src="images/gallery-4.jpg" alt="Réalisation 4" /><div><h3>Carrosserie éclatante</h3></div></article>
-        <article><img src="images/gallery-5.jpg" alt="Réalisation 5" /><div><h3>Canapé comme neuf</h3></div></article>
       </div>
     </section>
 

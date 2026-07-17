@@ -77,7 +77,7 @@ const fadeObserver = new IntersectionObserver(entries => {
 }, { threshold: 0.1 });
 
 document.querySelectorAll(
-  '.service-grid article, .pack-grid article, .quote-grid article, .strengths-grid article, .float-card'
+  '.service-grid article, .pack-grid article, .quote-grid article, .strengths-grid article, .float-card, .realisation-card'
 ).forEach(el => {
   el.style.opacity = '0';
   el.style.transform = 'translateY(20px)';
@@ -180,6 +180,125 @@ document.head.appendChild(style);
   syncWidth();
   setPosition(50);
   window.addEventListener('resize', syncWidth);
+})();
+
+// Galerie réalisations — filtres, modale, afficher plus
+(function initRealisationsGallery() {
+  const grid = document.getElementById('realisations-grid');
+  const modal = document.getElementById('realisations-modal');
+  if (!grid || !modal) return;
+
+  const cards = Array.from(grid.querySelectorAll('.realisation-card'));
+  const filters = Array.from(document.querySelectorAll('.realisations-filter'));
+  const emptyState = document.getElementById('realisations-empty');
+  const showAllBtn = document.getElementById('realisations-show-all');
+  const closeBtn = document.getElementById('realisations-modal-close');
+  const backdrop = modal.querySelector('[data-close-modal]');
+  const modalBadge = document.getElementById('realisations-modal-badge');
+  const modalTitle = document.getElementById('realisations-modal-title');
+  const modalLocation = document.getElementById('realisations-modal-location');
+  const modalDesc = document.getElementById('realisations-modal-desc');
+  const modalGallery = document.getElementById('realisations-modal-gallery');
+
+  let activeFilter = 'all';
+  let lastFocused = null;
+
+  const applyFilter = (filter) => {
+    activeFilter = filter;
+    let visibleCount = 0;
+
+    filters.forEach((btn) => {
+      const isActive = btn.dataset.filter === filter;
+      btn.classList.toggle('is-active', isActive);
+      btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+
+    cards.forEach((card) => {
+      const matches = filter === 'all' || card.dataset.category === filter;
+      const isExtraHidden = card.classList.contains('realisation-card--extra') && !grid.classList.contains('is-expanded');
+      const shouldShow = matches && !isExtraHidden;
+      card.classList.toggle('is-hidden', !shouldShow);
+      if (shouldShow) visibleCount += 1;
+    });
+
+    if (emptyState) {
+      emptyState.hidden = visibleCount > 0;
+    }
+  };
+
+  filters.forEach((btn) => {
+    btn.addEventListener('click', () => applyFilter(btn.dataset.filter));
+    btn.addEventListener('keydown', (e) => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      e.preventDefault();
+      const index = filters.indexOf(btn);
+      const next = e.key === 'ArrowRight'
+        ? filters[(index + 1) % filters.length]
+        : filters[(index - 1 + filters.length) % filters.length];
+      next.focus();
+      applyFilter(next.dataset.filter);
+    });
+  });
+
+  if (showAllBtn) {
+    showAllBtn.addEventListener('click', () => {
+      grid.classList.add('is-expanded');
+      showAllBtn.setAttribute('aria-expanded', 'true');
+      showAllBtn.hidden = true;
+      applyFilter(activeFilter);
+      grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+
+  const openModal = (card) => {
+    const images = (card.dataset.images || '').split('|').filter(Boolean);
+    const service = card.dataset.service || '';
+    const title = card.dataset.title || '';
+
+    modalBadge.textContent = service;
+    modalTitle.textContent = title;
+    modalLocation.textContent = card.dataset.location || '';
+    modalDesc.textContent = card.dataset.description || '';
+
+    modalGallery.innerHTML = images.map((src, index) => {
+      const alt = `${title} — photo ${index + 1}`;
+      return `<img src="${src}" alt="${alt}" loading="lazy" />`;
+    }).join('');
+
+    lastFocused = document.activeElement;
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    closeBtn.focus();
+  };
+
+  const closeModal = () => {
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    modalGallery.innerHTML = '';
+    if (lastFocused && typeof lastFocused.focus === 'function') {
+      lastFocused.focus();
+    }
+  };
+
+  cards.forEach((card) => {
+    const trigger = card.querySelector('.realisation-card__open');
+    if (!trigger) return;
+    trigger.addEventListener('click', () => openModal(card));
+  });
+
+  closeBtn.addEventListener('click', closeModal);
+  backdrop.addEventListener('click', closeModal);
+
+  const modalCta = document.getElementById('realisations-modal-cta');
+  if (modalCta) modalCta.addEventListener('click', closeModal);
+
+  modal.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  applyFilter('all');
 })();
 
 // Liquid line animation
