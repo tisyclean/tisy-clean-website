@@ -782,6 +782,25 @@ h1, h2, h3 {
   object-fit: cover;
   transition: transform 0.5s var(--ease);
 }
+.realisation-card__media img.is-broken { display: none; }
+.media-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px dashed rgba(13, 91, 255, 0.35);
+  color: var(--muted-70);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-align: center;
+  padding: 16px;
+}
+.realisation-card__media .media-placeholder {
+  z-index: 1;
+}
 .realisation-card:hover .realisation-card__media img {
   transform: scale(1.05);
 }
@@ -920,11 +939,18 @@ h1, h2, h3 {
   margin: 10px 0 8px;
   padding-right: 48px;
 }
+.realisations-modal__service {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
 .realisations-modal__location {
   font-size: 13px;
   color: var(--muted-50);
   margin-bottom: 14px;
 }
+.realisations-modal__location:empty { display: none; }
 .realisations-modal__desc {
   font-size: 14px;
   line-height: 1.65;
@@ -933,7 +959,7 @@ h1, h2, h3 {
 }
 .realisations-modal__gallery {
   display: grid;
-  gap: 12px;
+  gap: 16px;
   margin-bottom: 24px;
 }
 .realisations-modal__gallery img {
@@ -942,6 +968,151 @@ h1, h2, h3 {
   object-fit: cover;
   border-radius: 12px;
   border: 1px solid var(--glass-border);
+}
+.realisations-modal__gallery .media-placeholder {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border-radius: 12px;
+}
+.modal-ba {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+  cursor: col-resize;
+  touch-action: none;
+  user-select: none;
+  background: rgba(255, 255, 255, 0.03);
+}
+.modal-ba__after,
+.modal-ba__clip {
+  position: absolute;
+  inset: 0;
+}
+.modal-ba__clip {
+  width: 50%;
+  overflow: hidden;
+  z-index: 2;
+  will-change: width;
+}
+.modal-ba__after img,
+.modal-ba__clip img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+.modal-ba__clip img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--modal-ba-width, 100%);
+  max-width: none;
+  height: 100%;
+}
+.modal-ba__after .media-placeholder,
+.modal-ba__clip .media-placeholder {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  border-radius: 0;
+  border: none;
+  z-index: 1;
+}
+.modal-ba__clip .media-placeholder {
+  width: var(--modal-ba-width, 100%);
+}
+.modal-media {
+  position: relative;
+  width: 100%;
+}
+.modal-media img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  display: block;
+}
+.modal-media .media-placeholder {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border-radius: 12px;
+}
+.modal-ba__divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 44px;
+  margin-left: -22px;
+  z-index: 3;
+  cursor: col-resize;
+  touch-action: none;
+  background: transparent;
+}
+.modal-ba__divider::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 3px;
+  transform: translateX(-50%);
+  background: var(--primary);
+  box-shadow: var(--glow-blue);
+}
+.modal-ba__handle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background: var(--primary);
+  color: #fff;
+  box-shadow: var(--glow-blue);
+  pointer-events: none;
+}
+.modal-ba .ba-label {
+  position: absolute;
+  top: 12px;
+  z-index: 4;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid var(--glass-border);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  pointer-events: none;
+}
+.modal-ba .ba-label.before { left: 12px; }
+.modal-ba .ba-label.after { right: 12px; color: var(--accent); }
+.modal-ba-caption {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--muted-50);
+  text-align: center;
+}
+.modal-during-label {
+  margin: 4px 0 10px;
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 .realisations-modal__cta {
   width: 100%;

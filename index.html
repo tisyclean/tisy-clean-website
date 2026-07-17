@@ -342,6 +342,35 @@
         <p class="realisations-empty" id="realisations-empty" hidden>Aucune réalisation dans cette catégorie pour le moment.</p>
 
         <div class="realisations-grid" id="realisations-grid">
+          <!-- Réalisation — Nettoyage en profondeur des sièges (comparateur avant / après) -->
+          <article class="realisation-card"
+            data-category="interieur"
+            data-title="Nettoyage en profondeur des sièges"
+            data-badge="Nettoyage intérieur"
+            data-service="Injection-extraction des sièges"
+            data-description="Nettoyage en profondeur du tissu afin d’extraire les saletés, les taches et les résidus incrustés."
+            data-before="images/nettoyage-siege-avant.jpg"
+            data-after="images/nettoyage-siege-apres.jpg"
+            data-during="images/nettoyage-siege-pendant.jpg">
+            <button type="button" class="realisation-card__open" aria-label="Voir la réalisation : Nettoyage en profondeur des sièges">
+              <div class="realisation-card__media">
+                <img
+                  src="images/nettoyage-siege-apres.jpg"
+                  alt="Sièges après nettoyage en profondeur par injection-extraction"
+                  loading="lazy"
+                  onerror="this.classList.add('is-broken'); this.nextElementSibling.hidden = false;"
+                />
+                <div class="media-placeholder" hidden>Photo à ajouter</div>
+              </div>
+              <div class="realisation-card__body">
+                <span class="realisation-card__badge">Nettoyage intérieur</span>
+                <h3 class="realisation-card__title">Nettoyage en profondeur des sièges</h3>
+                <p class="realisation-card__location">Injection-extraction des sièges</p>
+                <span class="realisation-card__cta">Voir la réalisation <i class="fa-solid fa-arrow-right"></i></span>
+              </div>
+            </button>
+          </article>
+
           <!-- Réalisation 1 — modifier titre, catégorie, images et description ici -->
           <article class="realisation-card"
             data-category="complet"
@@ -486,6 +515,7 @@
         <div class="realisations-modal__content">
           <span class="realisation-card__badge" id="realisations-modal-badge"></span>
           <h3 class="realisations-modal__title" id="realisations-modal-title"></h3>
+          <p class="realisations-modal__service" id="realisations-modal-service" hidden></p>
           <p class="realisations-modal__location" id="realisations-modal-location"></p>
           <p class="realisations-modal__desc" id="realisations-modal-desc"></p>
           <div class="realisations-modal__gallery" id="realisations-modal-gallery"></div>

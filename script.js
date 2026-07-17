@@ -196,12 +196,138 @@ document.head.appendChild(style);
   const backdrop = modal.querySelector('[data-close-modal]');
   const modalBadge = document.getElementById('realisations-modal-badge');
   const modalTitle = document.getElementById('realisations-modal-title');
+  const modalService = document.getElementById('realisations-modal-service');
   const modalLocation = document.getElementById('realisations-modal-location');
   const modalDesc = document.getElementById('realisations-modal-desc');
   const modalGallery = document.getElementById('realisations-modal-gallery');
 
   let activeFilter = 'all';
   let lastFocused = null;
+  let destroyModalBa = null;
+
+  const escapeHtml = (value) => String(value || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+
+  const mediaBlock = (src, alt, className = '') => {
+    const safeSrc = escapeHtml(src);
+    const safeAlt = escapeHtml(alt);
+    return `
+      <div class="modal-media ${className}">
+        <img
+          src="${safeSrc}"
+          alt="${safeAlt}"
+          loading="lazy"
+          onerror="this.style.display='none'; this.nextElementSibling.hidden=false;"
+        />
+        <div class="media-placeholder" hidden>Photo à ajouter</div>
+      </div>
+    `;
+  };
+
+  const baSide = (src, alt) => {
+    if (!src) {
+      return `<div class="media-placeholder">Photo à ajouter</div>`;
+    }
+    const safeSrc = escapeHtml(src);
+    const safeAlt = escapeHtml(alt);
+    return `
+      <img
+        src="${safeSrc}"
+        alt="${safeAlt}"
+        loading="lazy"
+        draggable="false"
+        onerror="this.style.display='none'; this.nextElementSibling.hidden=false;"
+      />
+      <div class="media-placeholder" hidden>Photo à ajouter</div>
+    `;
+  };
+
+  const initModalBeforeAfter = (slider) => {
+    if (!slider) return () => {};
+
+    const clip = slider.querySelector('.modal-ba__clip');
+    const divider = slider.querySelector('.modal-ba__divider');
+    if (!clip || !divider) return () => {};
+
+    let position = 50;
+    let dragging = false;
+
+    const setPosition = (pct) => {
+      position = Math.min(100, Math.max(0, pct));
+      clip.style.width = `${position}%`;
+      divider.style.left = `${position}%`;
+      divider.setAttribute('aria-valuenow', Math.round(position));
+    };
+
+    const syncWidth = () => {
+      slider.style.setProperty('--modal-ba-width', `${slider.offsetWidth}px`);
+    };
+
+    const positionFromEvent = (clientX) => {
+      const rect = slider.getBoundingClientRect();
+      return ((clientX - rect.left) / rect.width) * 100;
+    };
+
+    const startDrag = () => { dragging = true; };
+    const endDrag = () => { dragging = false; };
+    const onMove = (clientX) => {
+      if (!dragging) return;
+      setPosition(positionFromEvent(clientX));
+    };
+
+    const onMouseDown = (e) => {
+      e.preventDefault();
+      setPosition(positionFromEvent(e.clientX));
+      startDrag();
+    };
+    const onMouseMove = (e) => onMove(e.clientX);
+    const onTouchStart = (e) => {
+      e.preventDefault();
+      setPosition(positionFromEvent(e.touches[0].clientX));
+      startDrag();
+    };
+    const onTouchMove = (e) => {
+      if (!dragging) return;
+      e.preventDefault();
+      onMove(e.touches[0].clientX);
+    };
+    const onKeyDown = (e) => {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); setPosition(position - 2); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); setPosition(position + 2); }
+    };
+
+    divider.addEventListener('mousedown', onMouseDown);
+    slider.addEventListener('mousedown', onMouseDown);
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', endDrag);
+    divider.addEventListener('touchstart', onTouchStart, { passive: false });
+    slider.addEventListener('touchstart', onTouchStart, { passive: false });
+    window.addEventListener('touchmove', onTouchMove, { passive: false });
+    window.addEventListener('touchend', endDrag);
+    window.addEventListener('touchcancel', endDrag);
+    divider.addEventListener('keydown', onKeyDown);
+    window.addEventListener('resize', syncWidth);
+
+    syncWidth();
+    setPosition(50);
+
+    return () => {
+      divider.removeEventListener('mousedown', onMouseDown);
+      slider.removeEventListener('mousedown', onMouseDown);
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', endDrag);
+      divider.removeEventListener('touchstart', onTouchStart);
+      slider.removeEventListener('touchstart', onTouchStart);
+      window.removeEventListener('touchmove', onTouchMove);
+      window.removeEventListener('touchend', endDrag);
+      window.removeEventListener('touchcancel', endDrag);
+      divider.removeEventListener('keydown', onKeyDown);
+      window.removeEventListener('resize', syncWidth);
+    };
+  };
 
   const applyFilter = (filter) => {
     activeFilter = filter;
@@ -252,18 +378,80 @@ document.head.appendChild(style);
 
   const openModal = (card) => {
     const images = (card.dataset.images || '').split('|').filter(Boolean);
+    const before = card.dataset.before || '';
+    const after = card.dataset.after || '';
+    const during = card.dataset.during || '';
     const service = card.dataset.service || '';
+    const badge = card.dataset.badge || service;
     const title = card.dataset.title || '';
+    const location = card.dataset.location || '';
 
-    modalBadge.textContent = service;
+    modalBadge.textContent = badge;
     modalTitle.textContent = title;
-    modalLocation.textContent = card.dataset.location || '';
+
+    if (modalService) {
+      if (service && service !== badge) {
+        modalService.hidden = false;
+        modalService.textContent = service;
+      } else {
+        modalService.hidden = true;
+        modalService.textContent = '';
+      }
+    }
+
+    modalLocation.textContent = location;
     modalDesc.textContent = card.dataset.description || '';
 
-    modalGallery.innerHTML = images.map((src, index) => {
-      const alt = `${title} — photo ${index + 1}`;
-      return `<img src="${src}" alt="${alt}" loading="lazy" />`;
-    }).join('');
+    if (destroyModalBa) {
+      destroyModalBa();
+      destroyModalBa = null;
+    }
+
+    let galleryHtml = '';
+
+    if (before || after) {
+      galleryHtml += `
+        <div class="modal-ba" id="modal-ba-slider">
+          <div class="modal-ba__after">
+            ${baSide(after, `${title} — après nettoyage`)}
+          </div>
+          <div class="modal-ba__clip">
+            ${baSide(before, `${title} — avant nettoyage`)}
+          </div>
+          <div
+            class="modal-ba__divider"
+            role="slider"
+            tabindex="0"
+            aria-label="Comparer avant et après"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-valuenow="50"
+          >
+            <div class="modal-ba__handle"><i class="fa-solid fa-arrows-left-right" aria-hidden="true"></i></div>
+          </div>
+          <span class="ba-label before">Avant</span>
+          <span class="ba-label after">Après</span>
+        </div>
+        <p class="modal-ba-caption">Glissez le curseur pour comparer avant et après</p>
+      `;
+    }
+
+    if (during) {
+      galleryHtml += `
+        <p class="modal-during-label">Pendant l'intervention</p>
+        ${mediaBlock(during, `${title} — pendant le nettoyage`)}
+      `;
+    }
+
+    if (images.length) {
+      galleryHtml += images.map((src, index) => mediaBlock(src, `${title} — photo ${index + 1}`)).join('');
+    }
+
+    modalGallery.innerHTML = galleryHtml;
+
+    if (before || after) {
+      destroyModalBa = initModalBeforeAfter(document.getElementById('modal-ba-slider'));
+    }
 
     lastFocused = document.activeElement;
     modal.classList.add('is-open');
@@ -277,6 +465,10 @@ document.head.appendChild(style);
     modal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
     modalGallery.innerHTML = '';
+    if (destroyModalBa) {
+      destroyModalBa();
+      destroyModalBa = null;
+    }
     if (lastFocused && typeof lastFocused.focus === 'function') {
       lastFocused.focus();
     }
