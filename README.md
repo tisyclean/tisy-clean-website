@@ -36,9 +36,10 @@ Sections principales :
 ├── style.css       # Styles
 ├── script.js       # Interactions (menu, FAQ, formulaire, slider)
 ├── server.js       # Serveur local port 3000
+├── scripts/build.js # Build statique → dist/ (Vercel)
 ├── images/         # Photos et logos
-├── components/     # Ancienne version Next.js (archivée)
-└── pages/          # Ancienne version Next.js (archivée)
+├── robots.txt
+└── sitemap.xml
 ```
 
 ## Déploiement
