@@ -239,9 +239,7 @@ document.head.appendChild(style);
         alt="${safeAlt}"
         loading="lazy"
         draggable="false"
-        onerror="this.style.display='none'; this.nextElementSibling.hidden=false;"
       />
-      <div class="media-placeholder" hidden>Photo à ajouter</div>
     `;
   };
 
@@ -256,6 +254,7 @@ document.head.appendChild(style);
     let dragging = false;
 
     const setPosition = (pct) => {
+      syncWidth();
       position = Math.min(100, Math.max(0, pct));
       clip.style.width = `${position}%`;
       divider.style.left = `${position}%`;
@@ -263,7 +262,14 @@ document.head.appendChild(style);
     };
 
     const syncWidth = () => {
-      slider.style.setProperty('--modal-ba-width', `${slider.offsetWidth}px`);
+      const w = slider.offsetWidth;
+      if (!w) return;
+      slider.style.setProperty('--modal-ba-width', `${w}px`);
+      const beforeImg = clip.querySelector('img');
+      if (beforeImg) {
+        beforeImg.style.width = `${w}px`;
+        beforeImg.style.maxWidth = 'none';
+      }
     };
 
     const positionFromEvent = (clientX) => {
@@ -311,8 +317,19 @@ document.head.appendChild(style);
     divider.addEventListener('keydown', onKeyDown);
     window.addEventListener('resize', syncWidth);
 
-    syncWidth();
-    setPosition(50);
+    const onImageReady = () => {
+      syncWidth();
+      setPosition(position);
+    };
+    slider.querySelectorAll('img').forEach((img) => {
+      if (img.complete) onImageReady();
+      else img.addEventListener('load', onImageReady, { once: true });
+    });
+
+    requestAnimationFrame(() => {
+      syncWidth();
+      setPosition(50);
+    });
 
     return () => {
       divider.removeEventListener('mousedown', onMouseDown);

@@ -1002,6 +1002,7 @@ h1, h2, h3 {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center center;
   display: block;
   pointer-events: none;
 }
@@ -1012,6 +1013,14 @@ h1, h2, h3 {
   width: var(--modal-ba-width, 100%);
   max-width: none;
   height: 100%;
+  transform: none;
+}
+.modal-ba__after img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: none;
 }
 .modal-ba__after .media-placeholder,
 .modal-ba__clip .media-placeholder {
@@ -1144,6 +1153,17 @@ h1, h2, h3 {
 .quote-grid h3 { font-size: 15px; margin-bottom: 10px; font-family: var(--body); text-transform: none; letter-spacing: 0; }
 .quote-grid p { font-size: 13px; color: var(--muted-70); font-style: italic; }
 .testimonials-cta { text-align: center; }
+.testimonials-widget {
+  width: min(100%, 1000px);
+  margin: 0 auto 40px;
+  overflow: hidden;
+}
+.testimonials-widget .sk-ww-google-reviews,
+.testimonials-widget iframe {
+  display: block;
+  width: 100% !important;
+  max-width: 100%;
+}
 
 /* FAQ */
 .faq {
