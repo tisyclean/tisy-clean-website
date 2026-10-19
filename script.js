@@ -46,11 +46,13 @@ stats.forEach(s => statsObserver.observe(s));
 // Contact form → WhatsApp
 const form = document.getElementById('contact-form');
 const serviceLabels = {
-  complet: 'Complet int. + ext. (70€+)',
-  interieur: 'Intérieur (35€+)',
-  exterieur: 'Extérieur (50€+)',
+  complet: 'Nettoyage complet (199€+)',
+  int_ext: 'Intérieur + extérieur (99€+)',
+  interieur: 'Nettoyage intérieur (69€+)',
+  exterieur: 'Nettoyage extérieur (55€+)',
+  phares: 'Rénovation des phares (69€)',
   sieges: 'Sièges',
-  canape: 'Canapé (60€+)',
+  canape: 'Canapé (79€+)',
 };
 
 form.addEventListener('submit', (e) => {
