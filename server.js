@@ -1,8 +1,20 @@
 const http = require("http");
 const fs = require("fs");
+const os = require("os");
 const path = require("path");
 
 const PORT = process.env.PORT || 3000;
+const HOST = process.env.HOST || "0.0.0.0";
+
+function getLanIPv4() {
+  const nets = os.networkInterfaces();
+  for (const ifaces of Object.values(nets)) {
+    for (const net of ifaces || []) {
+      if (net.family === "IPv4" && !net.internal) return net.address;
+    }
+  }
+  return null;
+}
 const ROOT = __dirname;
 
 const MIME = {
@@ -63,7 +75,11 @@ const server = http.createServer((req, res) => {
   });
 });
 
-server.listen(PORT, () => {
+server.listen(PORT, HOST, () => {
+  const lan = getLanIPv4();
   console.log(`Tisy Clean — http://localhost:${PORT}`);
+  if (lan) {
+    console.log(`Réseau local (iPhone, même Wi‑Fi) — http://${lan}:${PORT}`);
+  }
   console.log(`Contact — http://localhost:${PORT}/#contact`);
 });

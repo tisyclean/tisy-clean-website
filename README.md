@@ -20,6 +20,26 @@ npm run dev
 
 Ouvrez [http://localhost:3000](http://localhost:3000).
 
+### Tester sur iPhone (même Wi‑Fi)
+
+1. Dans le terminal, depuis le dossier du projet :
+
+```bash
+cd /Users/tisyclean/Projects/tisy-clean
+export PATH="$(pwd)/.node-local/bin:$PATH"
+npm run dev
+```
+
+2. Notez la ligne **« Réseau local »** affichée au démarrage (ex. `http://192.168.1.128:3000`).
+3. Sur l’iPhone (Safari), ouvrez cette adresse — **pas** `localhost`.
+4. Mac et iPhone doivent être sur le **même Wi‑Fi**. Si la page ne charge pas, autorisez **Node** ou le terminal dans *Réglages système → Réseau → Pare-feu*.
+
+Sans `npm` dans le PATH, lancez directement :
+
+```bash
+.node-local/bin/node server.js
+```
+
 Sections principales :
 
 | Section | URL |

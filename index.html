@@ -627,6 +627,109 @@
       <p class="pricing-notice">Tarifs indiqués à partir de. Le prix final est déterminé selon la taille du véhicule, son état général et le niveau de nettoyage nécessaire. Un <span class="pricing-notice__accent">devis personnalisé et gratuit</span> vous est proposé avant toute intervention.</p>
     </section>
 
+    <section class="quote-estimator" id="devis" aria-labelledby="quote-estimator-title">
+      <div class="section-head centered dark">
+        <p class="section-kicker">Devis instantané</p>
+        <h2 class="title-bar--lg" id="quote-estimator-title">Estimez votre <span>nettoyage</span></h2>
+      </div>
+      <div class="quote-estimator__progress" id="quote-progress" aria-label="Progression du devis">
+        <div class="quote-estimator__progress-meta">
+          <p class="quote-estimator__progress-step" aria-live="polite" aria-atomic="true">
+            <span class="visually-hidden" id="quote-step-live"></span>
+            <span id="quote-progress-status">Étape <span id="quote-step-current">1</span> sur <span id="quote-step-total">5</span></span>
+          </p>
+          <p class="quote-estimator__progress-name" id="quote-progress-step-name">Type de véhicule</p>
+        </div>
+        <div class="quote-estimator__progress-track" id="quote-progress-track">
+          <div class="quote-estimator__progress-fill" id="quote-progress-fill"></div>
+        </div>
+      </div>
+      <div class="quote-estimator__shell">
+        <div class="quote-estimator__panel">
+          <div class="quote-estimator__price-head" aria-live="polite">
+            <p class="quote-estimator__price-kicker">Estimation de votre prestation</p>
+            <p class="quote-estimator__price-value" id="sum-price">Sélectionnez une prestation pour obtenir une estimation</p>
+            <p class="quote-estimator__price-detail" id="sum-price-detail" hidden></p>
+          </div>
+          <form class="quote-estimator__form" id="quote-estimator-form" novalidate>
+            <fieldset class="quote-step" data-step="1">
+              <legend>Type de véhicule</legend>
+              <p class="quote-step__hint" id="quote-vehicle-hint">Sélectionnez la catégorie la plus proche de votre véhicule.</p>
+              <div class="quote-cards" role="group" aria-label="Type de véhicule">
+                <label class="quote-card"><input type="radio" name="vehicle" value="citadine" required /><span class="quote-card__icon"><i class="fa-solid fa-car-side"></i></span><span class="quote-card__label">Citadine</span></label>
+                <label class="quote-card"><input type="radio" name="vehicle" value="berline" /><span class="quote-card__icon"><i class="fa-solid fa-car"></i></span><span class="quote-card__label">Berline</span></label>
+                <label class="quote-card"><input type="radio" name="vehicle" value="suv" /><span class="quote-card__icon"><i class="fa-solid fa-truck-monster"></i></span><span class="quote-card__label">SUV</span></label>
+                <label class="quote-card"><input type="radio" name="vehicle" value="monospace" /><span class="quote-card__icon"><i class="fa-solid fa-van-shuttle"></i></span><span class="quote-card__label">Monospace</span></label>
+                <label class="quote-card"><input type="radio" name="vehicle" value="seven" /><span class="quote-card__icon"><i class="fa-solid fa-bus"></i></span><span class="quote-card__label">7 places</span></label>
+              </div>
+            </fieldset>
+            <fieldset class="quote-step" data-step="2">
+              <legend>Prestation souhaitée</legend>
+              <div class="quote-cards quote-cards--services" role="group" aria-label="Prestation">
+                <label class="quote-card"><input type="radio" name="service" value="interieur" required /><span class="quote-card__label">Nettoyage intérieur</span><span class="quote-card__price">à partir de 69€</span></label>
+                <label class="quote-card"><input type="radio" name="service" value="exterieur" /><span class="quote-card__label">Nettoyage extérieur</span><span class="quote-card__price">à partir de 55€</span></label>
+                <label class="quote-card"><input type="radio" name="service" value="int_ext" /><span class="quote-card__label">Intérieur + extérieur</span><span class="quote-card__price">à partir de 99€</span></label>
+                <label class="quote-card quote-card--featured"><input type="radio" name="service" value="complet" /><span class="quote-card__label">Nettoyage complet</span><span class="quote-card__price">à partir de 199€</span><span class="quote-card__note">Sièges inclus</span></label>
+                <label class="quote-card"><input type="radio" name="service" value="phares" /><span class="quote-card__label">Rénovation des phares</span><span class="quote-card__price">69€</span></label>
+                <label class="quote-card"><input type="radio" name="service" value="canape" /><span class="quote-card__label">Nettoyage de canapé</span><span class="quote-card__price">à partir de 79€</span></label>
+              </div>
+            </fieldset>
+            <fieldset class="quote-step" data-step="3">
+              <legend>État général</legend>
+              <div class="quote-cards quote-cards--compact" role="group" aria-label="État du véhicule ou du canapé">
+                <label class="quote-card"><input type="radio" name="condition" value="light" required /><span class="quote-card__label">Peu sale</span></label>
+                <label class="quote-card"><input type="radio" name="condition" value="dirty" /><span class="quote-card__label">Sale</span></label>
+                <label class="quote-card"><input type="radio" name="condition" value="very_dirty" /><span class="quote-card__label">Très sale</span></label>
+              </div>
+            </fieldset>
+            <fieldset class="quote-step" data-step="4">
+              <legend>Options supplémentaires</legend>
+              <p class="quote-step__hint">Uniquement les prestations tarifées sur notre grille. Aucun supplément automatique non publié.</p>
+              <div class="quote-options" id="quote-options-list">
+                <button type="button" class="quote-option quote-option--none" id="quote-options-none">
+                  <span>Aucune option</span>
+                </button>
+                <label class="quote-option"><input type="checkbox" name="options" value="phares_addon" /><span>Rénovation des phares</span><span class="quote-option__price">69€</span></label>
+                <label class="quote-option"><input type="checkbox" name="options" value="seat_1" /><span>Extraction 1 siège</span><span class="quote-option__price">49€</span></label>
+                <label class="quote-option"><input type="checkbox" name="options" value="seat_5" /><span>Sièges 5 places</span><span class="quote-option__price">169€</span></label>
+                <label class="quote-option"><input type="checkbox" name="options" value="seat_7" /><span>Sièges 7 places</span><span class="quote-option__price">269€</span></label>
+              </div>
+              <button type="button" class="btn btn-primary btn-pill quote-step-continue" id="quote-continue" hidden>Continuer</button>
+            </fieldset>
+            <fieldset class="quote-step" data-step="5">
+              <legend>Commune d'intervention</legend>
+              <div class="quote-cards quote-cards--communes" role="radiogroup" aria-label="Commune d'intervention">
+                <label class="quote-card"><input type="radio" name="commune" value="Tampon" required /><span class="quote-card__label">Tampon</span></label>
+                <label class="quote-card"><input type="radio" name="commune" value="Saint-Louis" /><span class="quote-card__label">Saint-Louis</span></label>
+                <label class="quote-card"><input type="radio" name="commune" value="Saint-Pierre" /><span class="quote-card__label">Saint-Pierre</span></label>
+                <label class="quote-card"><input type="radio" name="commune" value="Saint-Joseph" /><span class="quote-card__label">Saint-Joseph</span></label>
+                <label class="quote-card"><input type="radio" name="commune" value="autre" /><span class="quote-card__label">Autre commune</span><span class="quote-card__note">Sur étude</span></label>
+              </div>
+            </fieldset>
+            <fieldset class="quote-step quote-step--recap" data-step="6">
+              <legend>Récapitulatif</legend>
+              <p class="quote-step__hint">Vérifiez vos choix. Utilisez « Retour » pour modifier une étape.</p>
+              <dl class="quote-summary">
+                <div><dt>Véhicule</dt><dd id="sum-vehicle">—</dd></div>
+                <div><dt>Prestation</dt><dd id="sum-service">—</dd></div>
+                <div><dt>État</dt><dd id="sum-condition">—</dd></div>
+                <div><dt>Options</dt><dd id="sum-options">—</dd></div>
+                <div><dt>Commune</dt><dd id="sum-commune">—</dd></div>
+                <div class="quote-summary__total-row"><dt>Tarif estimatif</dt><dd id="sum-price-recap">—</dd></div>
+              </dl>
+              <p class="quote-summary__legal">Cette estimation n'est pas un prix garanti. Le tarif définitif sera confirmé après examen de votre demande. Devis gratuit et sans engagement.</p>
+              <a href="#" class="btn btn-primary btn-pill quote-summary__wa" id="quote-whatsapp" target="_blank" rel="noopener noreferrer" hidden>
+                <i class="fa-brands fa-whatsapp"></i> Demander mon devis sur WhatsApp
+              </a>
+            </fieldset>
+            <div class="quote-estimator__nav" aria-label="Navigation du simulateur">
+              <button type="button" class="btn btn-glass btn-pill" id="quote-prev" disabled>Retour</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
     <section class="zone-section" id="zone">
       <div class="zone-inner">
         <div class="zone-copy">

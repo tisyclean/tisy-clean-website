@@ -1093,6 +1093,453 @@ a.auto-offer__cta:focus-visible {
 .pricing-detail-grid span { color: var(--accent); font-weight: 700; font-size: 18px; }
 
 /* Zone */
+/* Simulateur de devis */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.quote-estimator {
+  padding: 80px 24px;
+  background: var(--background);
+}
+.quote-estimator__progress {
+  width: min(100%, 1100px);
+  margin: 0 auto 28px;
+  padding: 0 24px;
+}
+.quote-estimator__progress-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 16px;
+  margin-bottom: 12px;
+}
+.quote-estimator__progress-step {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted-50);
+}
+.quote-estimator__progress-name {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--white);
+  text-align: right;
+}
+.quote-estimator__progress-track {
+  position: relative;
+  height: 2px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.07);
+  overflow: visible;
+}
+.quote-estimator__progress-fill {
+  --quote-progress-w: 100%;
+  position: relative;
+  height: 2px;
+  width: 20%;
+  border-radius: 999px;
+  overflow: hidden;
+  transition: width 0.4s var(--ease);
+  box-shadow:
+    0 0 12px rgba(0, 123, 255, 0.35),
+    0 0 24px rgba(139, 66, 200, 0.2),
+    0 0 18px rgba(255, 7, 58, 0.12);
+}
+.quote-estimator__progress-fill::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--quote-progress-w);
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    #007bff 0%,
+    #8b42c8 52%,
+    #ff073a 100%
+  );
+}
+.quote-estimator__progress--pulse .quote-estimator__progress-fill {
+  box-shadow:
+    0 0 18px rgba(0, 123, 255, 0.55),
+    0 0 32px rgba(139, 66, 200, 0.35),
+    0 0 24px rgba(255, 7, 58, 0.25);
+  transition: width 0.4s var(--ease), box-shadow 0.4s var(--ease);
+}
+.quote-estimator__progress--recap .quote-estimator__progress-step {
+  color: var(--accent);
+}
+.quote-estimator__progress--recap .quote-estimator__progress-name {
+  color: var(--accent);
+}
+@media (max-width: 520px) {
+  .quote-estimator__progress-meta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .quote-estimator__progress-name {
+    text-align: left;
+  }
+}
+.quote-estimator__shell {
+  width: min(100%, 1100px);
+  margin: 0 auto;
+}
+.quote-estimator__panel {
+  padding: clamp(24px, 4vw, 36px);
+  border-radius: 22px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 40px rgba(0, 123, 255, 0.1);
+  overflow: hidden;
+}
+.quote-estimator__price-head {
+  text-align: center;
+  padding-bottom: 22px;
+  margin-bottom: 22px;
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(0, 123, 255, 0.08) 0%, transparent 100%);
+  margin: calc(clamp(24px, 4vw, 36px) * -1) calc(clamp(24px, 4vw, 36px) * -1) 22px;
+  padding: clamp(22px, 4vw, 32px) clamp(16px, 3vw, 28px) 22px;
+}
+.quote-estimator__price-kicker {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+.quote-estimator__price-value {
+  font-family: var(--title);
+  font-size: clamp(2rem, 6vw, 2.75rem);
+  font-weight: 400;
+  line-height: 1.05;
+  color: var(--white);
+  text-shadow: 0 0 32px rgba(0, 123, 255, 0.25);
+  transition: opacity 0.25s var(--ease), transform 0.25s var(--ease);
+}
+.quote-estimator__price-value--tick {
+  animation: quote-price-tick 0.32s var(--ease);
+}
+@keyframes quote-price-tick {
+  0% { opacity: 0.72; transform: translateY(4px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.quote-card--advance-flash {
+  animation: quote-card-advance-glow 0.3s var(--ease) forwards;
+}
+@keyframes quote-card-advance-glow {
+  0% {
+    border-color: var(--glass-border);
+    box-shadow: 0 0 0 rgba(0, 123, 255, 0);
+  }
+  45% {
+    border-color: var(--accent);
+    box-shadow: 0 0 32px rgba(0, 123, 255, 0.55), 0 0 0 1px rgba(0, 123, 255, 0.35);
+  }
+  100% {
+    border-color: rgba(0, 123, 255, 0.5);
+    box-shadow: 0 0 24px rgba(0, 123, 255, 0.15);
+  }
+}
+.quote-cards--communes {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 160px), 1fr));
+}
+.quote-estimator__price-detail {
+  margin-top: 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--muted-50);
+  max-width: 520px;
+  margin-inline: auto;
+}
+.quote-estimator__form {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+.quote-step {
+  border: 0;
+  padding: 0;
+  margin: 0 0 28px;
+}
+.quote-step legend {
+  font-family: var(--title);
+  font-size: clamp(1.35rem, 3vw, 1.75rem);
+  letter-spacing: 0.02em;
+  color: var(--white);
+  margin-bottom: 12px;
+  padding: 0;
+}
+.quote-step__hint {
+  font-size: 13px;
+  color: var(--muted-50);
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+.quote-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 140px), 1fr));
+  gap: 12px;
+}
+.quote-cards--services {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr));
+}
+.quote-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 16px 14px;
+  min-height: 52px;
+  border-radius: 14px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  cursor: pointer;
+  transition: border-color 0.3s var(--ease), box-shadow 0.3s var(--ease), transform 0.3s var(--ease);
+}
+.quote-card input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.quote-card__icon {
+  color: var(--accent);
+  font-size: 22px;
+}
+.quote-card__label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--white);
+  line-height: 1.3;
+}
+.quote-card__price {
+  font-size: 12px;
+  color: var(--accent);
+  font-weight: 600;
+}
+.quote-card__note {
+  font-size: 11px;
+  color: var(--muted-50);
+}
+.quote-card:has(input:checked) {
+  border-color: rgba(0, 123, 255, 0.5);
+  box-shadow: 0 0 24px rgba(0, 123, 255, 0.15);
+}
+.quote-card--featured:has(input:checked) {
+  box-shadow: 0 0 28px rgba(0, 123, 255, 0.18), inset 0 -1px 0 rgba(255, 7, 58, 0.35);
+}
+.quote-options {
+  display: grid;
+  gap: 10px;
+}
+.quote-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--muted-70);
+  transition: border-color 0.3s var(--ease), opacity 0.3s var(--ease);
+}
+.quote-option--none {
+  width: 100%;
+  font: inherit;
+  text-align: left;
+  border-style: dashed;
+}
+.quote-option--none.is-selected {
+  border-color: rgba(0, 123, 255, 0.45);
+  box-shadow: 0 0 20px rgba(0, 123, 255, 0.12);
+}
+.quote-option--advance-flash {
+  animation: quote-card-advance-glow 0.3s var(--ease) forwards;
+}
+.quote-option input {
+  accent-color: var(--primary);
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+.quote-option__price {
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 12px;
+}
+.quote-option.is-disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+.quote-field label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted-70);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.quote-field select {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 14px;
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  color: var(--white);
+  font-family: var(--body);
+  font-size: 15px;
+}
+.quote-estimator__nav {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+.quote-estimator__nav .btn {
+  flex: 1;
+  min-height: 48px;
+}
+.quote-step-continue {
+  width: 100%;
+  min-height: 48px;
+  margin-top: 16px;
+}
+.quote-step--recap {
+  padding-top: 8px;
+  margin-top: 8px;
+  border-top: 1px solid var(--line);
+}
+.quote-summary {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.quote-summary div {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 8px;
+  font-size: 13px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+}
+.quote-summary dt {
+  color: var(--muted-50);
+  font-weight: 500;
+}
+.quote-summary dd {
+  color: var(--white);
+  text-align: right;
+  margin: 0;
+}
+.quote-summary__total-row {
+  padding-top: 6px;
+  border-bottom: none;
+}
+.quote-summary__total-row dt,
+.quote-summary__total-row dd {
+  font-weight: 600;
+  color: var(--white);
+}
+.quote-summary__legal {
+  font-size: 11px;
+  line-height: 1.55;
+  color: #8f8c8c;
+  margin-bottom: 16px;
+}
+.quote-summary__wa {
+  display: flex;
+  width: 100%;
+  min-height: 52px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  box-shadow: 0 0 28px rgba(0, 123, 255, 0.22);
+}
+.quote-estimator__form--on-recap .quote-estimator__nav {
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 4px;
+}
+.quote-estimator__form--on-recap .quote-estimator__nav .btn {
+  flex: none;
+  width: 100%;
+}
+.quote-estimator__form--on-recap #quote-prev {
+  min-height: 44px;
+  font-weight: 500;
+  color: var(--muted-70);
+  background: rgba(0, 0, 0, 0.45);
+  border-color: var(--glass-border);
+}
+.quote-estimator__form--on-recap #quote-prev:not(:disabled):hover {
+  color: var(--white);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+@media (max-width: 899px) {
+  .quote-step {
+    display: none;
+    animation: quote-step-in 0.32s var(--ease);
+  }
+  .quote-step.is-active {
+    display: block;
+  }
+  .quote-estimator__form:not(.quote-estimator__form--ready) .quote-step:first-of-type {
+    display: block;
+  }
+  .quote-estimator__form--on-recap .quote-step--recap {
+    margin-bottom: 0;
+  }
+}
+@media (min-width: 900px) {
+  .quote-estimator__nav {
+    display: none;
+  }
+  .quote-step {
+    display: block;
+  }
+  .quote-step--recap {
+    margin-top: 28px;
+    padding-top: 24px;
+  }
+}
+@keyframes quote-step-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .quote-step.is-active { animation: none; }
+  .quote-estimator__progress-fill { transition: none; }
+  .quote-estimator__progress--pulse .quote-estimator__progress-fill { transition: none; }
+  .quote-estimator__price-value--tick,
+  .quote-card--advance-flash,
+  .quote-option--advance-flash { animation: none; }
+  .quote-estimator__price-value { transition: none; }
+}
+
 .zone-section { padding: 80px 24px; background: var(--surface); text-align: center; }
 .zone-copy h2 { color: #fff; margin: 10px 0 24px; }
 .zone-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 16px; }
