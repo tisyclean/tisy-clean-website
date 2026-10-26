@@ -512,14 +512,156 @@ document.head.appendChild(style);
   applyFilter('all');
 })();
 
-// Liquid line animation
+// Liquid line reveal (hero scroll progress)
 const liquidLine = document.querySelector('.liquid-line');
-if (liquidLine) {
-  window.addEventListener('scroll', () => {
-    const hero = document.querySelector('.hero');
-    if (!hero) return;
-    const rect = hero.getBoundingClientRect();
-    const progress = Math.min(1, Math.max(0, -rect.top / rect.height));
-    liquidLine.style.transform = `scaleX(${progress})`;
-  });
+function updateLiquidLineScale() {
+  if (!liquidLine) return;
+  const hero = document.querySelector('.hero');
+  if (!hero) return;
+  const rect = hero.getBoundingClientRect();
+  const progress = Math.min(1, Math.max(0, -rect.top / rect.height));
+  liquidLine.style.transform = `scaleX(${progress})`;
 }
+
+// Neon bars — dégradé dynamique lié au scroll
+(function initNeonBarGradient() {
+  const motionOk = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const TITLE_BAR_WIDTH = {
+    'title-bar--sm': 'neon-bar--w-sm',
+    'title-bar--md': 'neon-bar--w-md',
+    'title-bar--lg': 'neon-bar--w-lg',
+  };
+
+  function widthClassForTitle(h2) {
+    for (const [titleCls, barCls] of Object.entries(TITLE_BAR_WIDTH)) {
+      if (h2.classList.contains(titleCls)) return barCls;
+    }
+    return 'neon-bar--w-md';
+  }
+
+  function createBar(variant, extraClass) {
+    const bar = document.createElement('span');
+    bar.className = ['neon-bar', `neon-bar--${variant}`, extraClass].filter(Boolean).join(' ');
+    bar.setAttribute('aria-hidden', 'true');
+    return bar;
+  }
+
+  function wrapTitleWithBar(titleEl, bar, options = {}) {
+    if (titleEl.closest('.title-bar-wrap')) return;
+    const wrap = document.createElement('div');
+    wrap.className = 'title-bar-wrap';
+    if (options.centered) wrap.classList.add('title-bar-wrap--centered');
+    if (options.hero) wrap.classList.add('title-bar-wrap--hero');
+    const parent = titleEl.parentNode;
+    parent.insertBefore(wrap, titleEl);
+    wrap.appendChild(titleEl);
+    wrap.appendChild(bar);
+  }
+
+  function mountHeroSloganBar() {
+    const heroContent = document.querySelector('.hero-content');
+    if (!heroContent || heroContent.querySelector('.title-bar-wrap--hero')) return;
+    const h1s = Array.from(heroContent.querySelectorAll('h1'));
+    if (!h1s.length) return;
+    const lastH1 = h1s[h1s.length - 1];
+    let bar = lastH1.nextElementSibling?.classList?.contains('neon-bar')
+      ? lastH1.nextElementSibling
+      : createBar('red', 'neon-bar--hero');
+    const wrap = document.createElement('div');
+    wrap.className = 'title-bar-wrap title-bar-wrap--hero';
+    heroContent.insertBefore(wrap, h1s[0]);
+    h1s.forEach((h1) => wrap.appendChild(h1));
+    if (bar.parentNode !== wrap) wrap.appendChild(bar);
+  }
+
+  function mountTitleBar(h2) {
+    if (h2.closest('.title-bar-wrap')) return;
+    let bar = h2.nextElementSibling;
+    if (!bar?.classList?.contains('neon-bar')) {
+      bar = createBar('accent', widthClassForTitle(h2));
+      h2.insertAdjacentElement('afterend', bar);
+    }
+    wrapTitleWithBar(h2, bar, {
+      centered: Boolean(h2.closest('.section-head.centered')),
+    });
+  }
+
+  function mountNeonBars() {
+    mountHeroSloganBar();
+    document.querySelectorAll('.section-head.centered h2, .booking-title h2').forEach(mountTitleBar);
+    if (liquidLine) {
+      liquidLine.classList.add('neon-bar', 'neon-bar--accent');
+    }
+  }
+
+  mountNeonBars();
+
+  const BASE = { blue: 28, mauve: 50, red: 72, redMid: 50 };
+
+  function applyAccentGradient(bar, phase) {
+    const wobble = Math.sin(phase * 2.4) * 1.2;
+    const wobble2 = Math.sin(phase * 1.7 + 0.6) * 1.5;
+    let blue = BASE.blue + phase * 11 + wobble * 0.6;
+    let mauve = BASE.mauve + phase * 13 + wobble;
+    let red = BASE.red + phase * 15 + wobble2;
+    blue = Math.max(14, Math.min(40, blue));
+    mauve = Math.max(blue + 10, Math.min(62, mauve));
+    red = Math.max(mauve + 10, Math.min(84, red));
+    const luma = Math.min(1, Math.abs(phase) * 0.85 + Math.abs(wobble) * 0.08);
+    bar.style.setProperty('--bar-blue', `${blue}%`);
+    bar.style.setProperty('--bar-mauve', `${mauve}%`);
+    bar.style.setProperty('--bar-red-stop', `${red}%`);
+    bar.style.setProperty('--bar-luma', String(luma));
+  }
+
+  function applyRedGradient(bar, phase) {
+    const mid = Math.max(38, Math.min(62, BASE.redMid + phase * 8 + Math.sin(phase * 2.1) * 2));
+    const luma = Math.min(1, Math.abs(phase) * 0.75);
+    bar.style.setProperty('--bar-red-mid', `${mid}%`);
+    bar.style.setProperty('--bar-luma', String(luma));
+  }
+
+  if (!motionOk) {
+    window.addEventListener('scroll', updateLiquidLineScale, { passive: true });
+    updateLiquidLineScale();
+    return;
+  }
+
+  let lastScrollY = window.scrollY;
+  let phase = 0;
+  let phaseVel = 0;
+  let rafId = 0;
+
+  function isBarVisible(bar) {
+    const r = bar.getBoundingClientRect();
+    return r.bottom > 0 && r.top < window.innerHeight;
+  }
+
+  function tick() {
+    const dy = window.scrollY - lastScrollY;
+    lastScrollY = window.scrollY;
+
+    if (Math.abs(dy) > 0.25) {
+      phaseVel += dy * 0.0022;
+    }
+    phaseVel *= 0.9;
+    phase += phaseVel;
+    phase *= 0.985;
+
+    document.querySelectorAll('.neon-bar').forEach((bar) => {
+      if (!isBarVisible(bar)) return;
+      if (bar.classList.contains('neon-bar--accent')) {
+        applyAccentGradient(bar, phase);
+      } else if (bar.classList.contains('neon-bar--red')) {
+        applyRedGradient(bar, phase);
+      }
+    });
+
+    updateLiquidLineScale();
+    rafId = requestAnimationFrame(tick);
+  }
+
+  rafId = requestAnimationFrame(tick);
+  window.addEventListener('beforeunload', () => cancelAnimationFrame(rafId));
+})();
