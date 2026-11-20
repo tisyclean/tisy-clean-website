@@ -1072,7 +1072,7 @@ function updateLiquidLineScale() {
     if (!validateStep(fromStep)) return;
     isAdvancing = true;
     clearAdvanceTimer();
-    setStep(fromStep + 1);
+    setStep(fromStep + 1, { navigate: true });
     requestAnimationFrame(() => {
       isAdvancing = false;
     });
@@ -1097,7 +1097,7 @@ function updateLiquidLineScale() {
     if (step && step === currentStep) scheduleAutoAdvance(step, target);
   }
 
-  function setStep(step) {
+  function setStep(step, { navigate = false } = {}) {
     clearAdvanceTimer();
     const previousStep = currentStep;
     currentStep = Math.max(1, Math.min(TOTAL_STEPS, step));
@@ -1113,7 +1113,7 @@ function updateLiquidLineScale() {
       }
     });
     const activeFieldset = steps.find((s) => Number(s.dataset.step) === currentStep);
-    if (activeFieldset && isMobileFlow()) {
+    if (navigate && activeFieldset && isMobileFlow()) {
       announceStep(activeFieldset);
       scrollSimulatorIntoView();
       const legend = activeFieldset.querySelector('legend');
@@ -1132,7 +1132,7 @@ function updateLiquidLineScale() {
   prevBtn?.addEventListener('click', () => {
     clearAdvanceTimer();
     isAdvancing = false;
-    if (currentStep > 1) setStep(currentStep - 1);
+    if (currentStep > 1) setStep(currentStep - 1, { navigate: true });
   });
 
   continueBtn?.addEventListener('click', () => {
